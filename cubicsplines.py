@@ -110,7 +110,8 @@ def cubicSpline(points, resolution=100):
     for i in range(0, len(Si)):
         print(Si[i])
 
-    plots = []
+    x_vals = []
+    y_vals = []
     # Set up the plot
     for i in range(0, n - 1):
         xf = np.linspace(x[i], x[i + 1], resolution)
@@ -122,11 +123,14 @@ def cubicSpline(points, resolution=100):
             x_val = xf[j]
             yf.append(eval(formulas[i]))
 
-        plots.append(plt.plot(x, y, 'o', xf, yf, '-'))
+        x_vals.extend(xf)
+        y_vals.extend(yf)
 
-    # plt.legend(['Input X Values', 'Cubic Spline curve'], loc='best')
-    # plt.title('Cubic Spline Interpolation')
-    return plots
+    plt.plot(x, y, 'o', x_vals, y_vals, '-')
+
+    plt.legend(['Input X Values', 'Cubic Spline curve'], loc='best')
+    plt.title('Cubic Spline Interpolation')
+    # plt.show()
 
 #cubicSpline('(0,1),(2,2),(3,4)')
 
