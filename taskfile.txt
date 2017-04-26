@@ -1,0 +1,63 @@
+Here is a list of all our to dos and notes on what still needs to be done
+
+Adaptive: UNKNOWN
+ TODO: Probably a lot considering it outputs errors just running it with no function evals
+ ETA: Hopefully 4/26
+ Notes:
+
+ AutoDiff: Not Started
+ TODO: The whole thing. Unfortunately, this is something we may or may not get done. We may have to argue this with the professor
+ ETA: Unknown
+ Notes:
+
+ Bezier: Done
+ TODO: NONE
+ Notes:
+
+ Chebyshev: Done
+ TODO: Nick said he was going to possibly add nodes to the output, but if he doesn't, it doesn't matter
+ Notes:
+
+ CubicSplines: Done
+ TODO: NONE
+
+ DifferenceMethods: UNKNOWN
+ TODO: Probably changing the whole program to output to gui and plot within the function.
+ ETA: 4/26
+ Notes:
+
+ Extrapolation: Unknown
+ TODO: Probably changing the whole program to output to gui and plot within the function.
+ ETA: 4/26
+ Notes:
+
+ Gaussian: Not Started
+ TODO: The whole thing. I(John) will try to get this done 4/25-2/26
+ETA: 4/26
+Notes:
+
+LeastSquares: Done
+TODO: Nothing
+Notes:
+
+NonLinearLeastSquares: In Progress
+TODO: I(John) need to figure out how to computer the jacobian of the function. I am going to try to get this done by 4/25
+ETA: 4/25
+Notes:
+
+Romberg: UNKNOWN
+TODO: Probably changing the whole program to output to gui and plot within the function.
+ETA: 4/26
+Notes:
+
+NewtonTrapezoidal: Almost done
+TODO: Error checking and rewriting as a function
+ETA: 4/26
+Notes:
+
+NewtonSimpson: Almost done
+TODO: Error checking and rewriting as a function
+ETA: 4/26
+Notes:
+
+
