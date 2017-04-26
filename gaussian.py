@@ -1,22 +1,15 @@
-import numpy as np
-from scipy.integrate import fixed_quad
-import matplotlib.pyplot as plt
-
-### aware that precision is 2n-1
-
-def gaus_quad(func, a, b, n):
-    return fixed_quad(func, a, b, n)
+import math
 
 
-def main():
-    func = exp(-x**2/2)
-    gaus_quad(func, -1, 1, 4)
-    return 0
+def gauss1(f,n):
+    [x,w] = p_roots(n+1)
+    G=sum(w*f(x))
+    return G
 
-
-def gaussian(x,y,z):
-    return 0
-
+def gauss(f,n,a,b):
+    [x,w] = p_roots(n+1)
+    G=0.5*(b-a)*sum(w*f(0.5*(b-a)*x+0.5*(b+a)))
+    return G
 
 if __name__ == '__main__':
     main()
