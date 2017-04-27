@@ -68,7 +68,7 @@ def bezier_spline(xPoints, yPoints, numPoints):
 # if you do not enter 4 points the function will
 # reject. If you have equations to enter, please enter the points
 # in the form
-def bezier(user_input, n):
+def bezier(user_input, n=4):
     point = '(';
     foundPoint = False;
     userString = str(user_input);
@@ -146,8 +146,8 @@ def bezier(user_input, n):
 #     # nPoints = 4
 #     # points = np.random.rand(nPoints,2)*200
 #     nPoints = 4
-#     points = [[1,0,6,2],[1,-1,0,1],[1,1,6,0]]
-#     bezier(points,nPoints)
+#     points =
+#     bezier([[1,0,6,2],[1,-1,0,1],[1,1,6,0]], 4)
 #
 #
 #

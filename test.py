@@ -1,9 +1,15 @@
+import matplotlib
+matplotlib.use("TkAgg")
+
 import tkinter as tk
+from tkinter import messagebox
 import timeit
 import io
 import sys
 import traceback
 import math
+from math import sqrt
+from sympy import ln
 from chebyshev import chebyshev
 from cubicsplines import cubicSpline
 from leastSquares import leastSquares
@@ -11,12 +17,14 @@ from bezier import bezier
 from nonlinearleastsquares import nonLinearLeastSquares
 from differencemethods import differenceMethods
 from extrapolation import extrapolation
-from autodiff import autoDiff
+#from autodiff import autoDiff
 from trapezoidalsimpson import newtonTrapezoidal
 from trapezoidalsimpson import newtonSimpson
 from romberg1 import romberg
 from adaptive import adaptive
 from gaussian import gaussian
+from numpy import sin, cos, tan, log
+
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_tkagg import FigureCanvasTkAgg
 
@@ -38,15 +46,13 @@ def callback(tex, input):
         fig.canvas.draw()
         sys.stdout = sys.__stdout__
         tex.insert(tk.END, out.getvalue())
-        tex.insert(tk.END, 'Runtime: ' + str(stop - start) + 'ms')
+        tex.insert(tk.END, 'Runtime: ' + str(stop - start) + ' seconds')
         tex.see(tk.END)  # Scroll if necessary
     except Exception as e:
         exc_type, exc_value, exc_traceback = sys.exc_info()
         tex.insert(tk.END, str(e))
         tex.insert(tk.END, str(traceback.extract_tb(exc_traceback)))
         tex.insert(tk.END, "You have entered an invalid input. Select a function from the left for example input.\n")
-
-
 
 root = tk.Tk()
 root.wm_title('Numerical Analysis Project 2.2')
@@ -64,34 +70,90 @@ inputlabel.pack(side=tk.LEFT, padx=(0,4))
 inputText = tk.StringVar()
 
 
-def setInput(category):
-    print(category)
+def setInput(tex, category):
+    tex.delete("1.0", tk.END)
+    plt.clf()
     if category == 'Chebyshev':
         inputText.set('chebyshev(-1, 1, 0.5, math.sin)')
+        tex.insert(tk.END,  'Runs the Chebyshev algorithm up to 30 times, increasing degree n until the guess is'
+                            'sufficiently close. Outputs the calculated Chebyshev value, the degree of the polynomial '
+                            'where the best guess was calculated and the actual value from the function.\n\n'
+                            'Example usage: chebyshev(-1, 1, 0.5, math.sin)\n'
+                            'Advanced functions can be input as example: lambda x: (math.sin(x) - math.cos(x))')
     elif category == 'Cubic Splines':
         inputText.set('cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\')')
+        tex.insert(tk.END,  'Takes a string of points in the string form: \'(-1,3), (0,5), (3,1), (4,1), (5,1)\'' 
+                            ' and optionally, the graph resolution. '
+                            'Prints the cubic spline functions and displays an interpolated line plot below.\n'
+                            'Example usage: cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\')\n'
+                            'or cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\', resolution=2) for a ' 
+                            'low resolution graph.')
     elif category == 'Bezier':
-        inputText.set('Not yet implemented')
+        inputText.set('bezier([[1,0,6,2],[1,-1,0,1],[1,1,6,0]])')
+        tex.insert(tk.END,  'Takes a series of points in the form: [[1,0,6,2],[1,-1,0,1],[1,1,6,0]] and outputs the '
+                            'Bezier spline\'s knots and control points based on the input coordinates.\n'
+                            'Example usage: bezier([[1,0,6,2],[1,-1,0,1],[1,1,6,0]])')
     elif category == 'Linear Least Squares':
-        inputText.set('Not yet implemented')
+        inputText.set('leastSquares([(1.49, 44.6), (3.03, 57.8), (0.57, 49.9), (5.74, 61.3), (3.51, 49.6), '
+                      '(3.73, 61.8), (2.98, 49.0), (-0.18, 44.7), (6.23, 59.2), (3.38, 53.9), (2.15, 46.5), '
+                      '(2.10, 54.7), (3.93, 50.3), (2.47, 51.2), (-0.41, 45.7)],0,2)')
+        tex.insert(tk.END, 'Takes either a series of coordinate points or a series of A and B matrices in bracket form.'
+                           'If coordinates are provided, will output least squares fit function and graph.\n'
+                           'If an A and B matrix is provided, it will output the coefficient, residual, and rank.\n\n'
+                           'Example usage: leastSquares([[1, 1], [1, -1], [1, 1]], [2, 1, 3], 3)')
     elif category == 'Nonlinear Least Squares':
         inputText.set('Not yet implemented')
+        tex.insert(tk.END, ''
+                           ''
+                           ''
+                           '')
     elif category == 'Difference Methods':
         inputText.set('Not yet implemented')
+        tex.insert(tk.END, ''
+                           ''
+                           ''
+                           '')
     elif category == 'Extrapolation':
         inputText.set('Not yet implemented')
+        tex.insert(tk.END, ''
+                           ''
+                           ''
+                           '')
     elif category == 'Automatic Differentiation':
         inputText.set('Not yet implemented')
+        tex.insert(tk.END, ''
+                           ''
+                           ''
+                           '')
     elif category == 'Newton-Cotes: Trapezoidal':
-        inputText.set('Not yet implemented')
+        inputText.set('newtonTrapezoidal(lambda x: x**2, 0, 1, 10)')
+        tex.insert(tk.END, 'Takes a function, a and b intervals, and an n value in that order. '
+                           'Calculates the best guess for the Newton-Cotes Trapezoidal result value, and plots the '
+                           'graph below.\n\n'
+                           'Example usage: newtonTrapezoidal(lambda x: x**2, 0, 1, 10)')
     elif category == 'Newton-Cotes: Simpson':
-        inputText.set('Not yet implemented')
+        inputText.set('newtonSimpson(lambda x: x**2, 0, 1, 10)')
+        tex.insert(tk.END, 'Takes a function, a and b intervals, and an n value in that order. '
+                           'Calculates the best guess for the Newton-Cotes Simpson result value, and plots the '
+                           'graph below.\n\n'
+                           'Example usage: newtonSimpson(lambda x: x**2, 0, 1, 10)')
     elif category == 'Romberg':
-        inputText.set('Not yet implemented')
+        inputText.set('romberg(math.sin, 0, 2, 10)')
+        tex.insert(tk.END, 'Takes a function, a and b interval values, and n value in that order. '
+                           'Plots the Romberg output and also outputs the associated array.\n\n'
+                           'Example usage: romberg(math.sin, 0, 2, 10)\n'
+                           'Advanced functions can be input as example: lambda x: (math.sin(x) - math.cos(x))')
     elif category == 'Adaptive':
-        inputText.set('Not yet implemented')
+        inputText.set('adaptive(lambda x: ln(x**2+1), 0, 1, 0.5E-09, 100)')
+        tex.insert(tk.END, 'Takes a function, a - b interval, tolerance, and number of steps and outputs the integrated'
+                           ' function value, the adaptive error, and the number of iterations necessary to find the '
+                           'integrated value. \n'
+                           'Example usage: adaptive(lambda x: ln(x**2+1), 0, 1, 0.5E-09, 100)')
     elif category == 'Gaussian':
-        inputText.set('Not yet implemented')
+        inputText.set('gaussian(lambda x: (x**2 * log(x)), 1, 3)')
+        tex.insert(tk.END, 'Takes a function, a and b interval, and optionally, an extra Y value.'
+                           'Outputs the estimated value, the actual value, and the error.\n'
+                           'Example usage: gaussian(lambda x: (x**2 * log(x)), 1, 3)')
     else:
         print('Error')
 
@@ -112,28 +174,43 @@ txt_frm.grid_propagate(False)
 txt_frm.grid_rowconfigure(0, weight=1)
 txt_frm.grid_columnconfigure(0, weight=1)
 
-tex = tk.Text(txt_frm, height=8)
-tex.pack(fill='x', padx=(0,16))
+tex = tk.Text(txt_frm, height=10)
+tex.pack(fill='x')
 
 executebutton = tk.Button(inputframe, text='Execute', command=lambda: callback(tex, userinput))
 executebutton.pack(side=tk.RIGHT, padx=(4, 0))
 
-scrollb = tk.Scrollbar(txt_frm, command=tex.yview)
-scrollb.grid(row=0, column=1, sticky='nsew', padx=(16,0))
-tex['yscrollcommand'] = scrollb.set
+
+def close():
+    root.destroy()
+    exit(0)
 
 bop = tk.Frame(width=200)
 bop.pack(side=tk.LEFT, fill='y', pady=(8, 8), padx=(8, 8))
 for k in range(0, 13):
     tv = categories[k]
-    b = tk.Button(bop, text=tv, command=lambda tv=tv: setInput(tv))
+    b = tk.Button(bop, text=tv, command=lambda tv=tv: setInput(tex, tv))
     b.pack(fill="x", pady=(2, 2))
-tk.Button(bop, text='Exit', command=root.destroy).pack(fill='x')
+tk.Button(bop, text='Exit', command=lambda: close()).pack(side=tk.BOTTOM, fill='x')
 
+# UI hacks
+root.protocol("WM_DELETE_WINDOW", close)
+root.lift()
+
+root.attributes('-topmost', True)
+root.after_idle(root.attributes, '-topmost', False)
 
 def main():
     inputText.set("Select a button from the left for example input.")
-    root.mainloop()
+    while True:
+        try:
+            root.mainloop()
+            break
+        # More hacks
+        except UnicodeDecodeError:
+            pass
+        except KeyboardInterrupt:
+            close()
 
 if __name__ == '__main__':
     main()

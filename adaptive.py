@@ -1,6 +1,5 @@
 import numpy as np
 from scipy.integrate import quad
-from sympy import *
 import matplotlib.pyplot as plt
 import time
 from math import *
@@ -63,20 +62,18 @@ def adaptive(f, a, b, ep, numSteps):
     iterator += 1
     print("Adaptive error: " + str(round(error,8)))
     print("Number of Iterations: " + str(iterator))
-    return trapezint(f, a, b, int(ceil(n)))
+    value = trapezint(f, a, b, int(ceil(n)))
+    iterator = 0
+    return value
 
 
-def main():
-    func = lambda x: ln(x**2+1)
-    a = 0
-    b = 1
-    ep = 0.5E-09
-    #print trapezint(func, a, b, 10)
-    adaptive(func, a, b, ep, 10)
+# def main():
+#     func =
+#     a = 0
+#     b = 1
+#     ep = 0.5E-09
+#     #print trapezint(func, a, b, 10)
+# adaptive(lambda x: ln(x**2+1), 0, 1, 0.5E-09, 1000)
 
-
-
-if __name__ == '__main__':
-    main()
 
 
