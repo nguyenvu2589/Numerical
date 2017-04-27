@@ -55,37 +55,18 @@ def newtonSimpson(f, a, b, n):
         print ('Simpson error: ' + str(error))
 
 
-<<<<<<< HEAD
 def newtTrapSimp(func, a, b, n):
     #### SIMPSON
-    print("This is Composite Simpson: " + str(round(newtonSimpson(func, a, b, n), 8)))
-    print("This is Composite Simpson Error: " + str(round(error_simp(func, a, b, n), 8)))
+    newtonSimpson(func, a, b, n)
 
     ### TRAPEZOIDAL
-    result, array = newtonTrapezoidal(func, a, b, n)
-    print("This is Composite Trapezoid: " + str(round(result, 8)))
-    print("this is Composite Trapezoid Error: " + str(round(error_trap(func, a, b, n))))
-    ### PLOT
-    plot(array)
+    newtonTrapezoidal(func, a, b, n)
 
-=======
->>>>>>> origin/master
+
 if __name__ == '__main__':
     func = lambda x: x**2
     a = 0.0
     b = 1.0
-<<<<<<< HEAD
     n = 4
 
     newtTrapSimp(func, a, b, n)
-
-=======
-    n = 10
-
-    # SIMPSON
-    newtonSimpson(func, a, b, n)
->>>>>>> origin/master
-
-    # TRAPEZOIDAL
-    newtonTrapezoidal(func, a, b, n)
-
