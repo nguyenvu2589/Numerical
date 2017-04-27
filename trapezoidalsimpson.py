@@ -6,6 +6,8 @@ from math import *
 from scipy.misc import derivative
 import scipy.integrate as integrate
 
+global iteration
+
 def newtonTrapezoidal(f,a,b,n):
     array = []
     h=(b-a)/n
@@ -26,11 +28,11 @@ def newtonSimpson(f, a, b, n):
             n = n+1
         h = (b - a)/float(n) 
         sum1 = 0
-        for i in range(1, n/2 + 1):
+        for i in range(1, int(n/2 + 1)):
             sum1 += f(a + (2*i - 1)*h)
         sum1 *= 4
         sum2 = 0
-        for i in range(1, n/2): 
+        for i in range(1, int(n/2)):
             sum2 += f(a + 2*i*h)
             
         sum2 *= 2
@@ -53,23 +55,25 @@ def error_simp(func,a,b,n):
     approx = newtonSimpson(func, a, b, n)
     return round(abs(actual - approx),8)
 
+def newtTrapSimp(func, a, b, n):
+    #### SIMPSON
+    print("This is Composite Simpson: " + str(round(newtonSimpson(func, a, b, n), 8)))
+    print("This is Composite Simpson Error: " + str(round(error_simp(func, a, b, n), 8)))
+
+    ### TRAPEZOIDAL
+    result, array = newtonTrapezoidal(func, a, b, n)
+    print("This is Composite Trapezoid: " + str(round(result, 8)))
+    print("this is Composite Trapezoid Error: " + str(round(error_trap(func, a, b, n))))
+    ### PLOT
+    plot(array)
+
 if __name__ == '__main__':
     func = lambda x: x**2
     a = 0.0
     b = 1.0
-    n = 10
+    n = 4
 
-    #### SIMPSON
-    print(newtonSimpson(func, a, b, n))
-    print(error_simp(func, a, b, n))
-
-    ### TRAPEZOIDAL
-    result, array = newtonTrapezoidal(func, a, b, n)
-    print(result)
-    print(error_trap(func, a, b, n))
-
-    ### PLOT
-    plot(array)
+    newtTrapSimp(func, a, b, n)
 
 
 
