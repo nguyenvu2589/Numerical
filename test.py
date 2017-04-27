@@ -175,10 +175,15 @@ txt_frm.grid_rowconfigure(0, weight=1)
 txt_frm.grid_columnconfigure(0, weight=1)
 
 tex = tk.Text(txt_frm, height=10)
-tex.pack(fill='x', padx=(0,16))
+tex.pack(fill='x')
 
 executebutton = tk.Button(inputframe, text='Execute', command=lambda: callback(tex, userinput))
 executebutton.pack(side=tk.RIGHT, padx=(4, 0))
+
+
+def close():
+    root.destroy()
+    exit(0)
 
 bop = tk.Frame(width=200)
 bop.pack(side=tk.LEFT, fill='y', pady=(8, 8), padx=(8, 8))
@@ -186,15 +191,10 @@ for k in range(0, 13):
     tv = categories[k]
     b = tk.Button(bop, text=tv, command=lambda tv=tv: setInput(tex, tv))
     b.pack(fill="x", pady=(2, 2))
-tk.Button(bop, text='Exit', command=root.destroy).pack(side=tk.BOTTOM, fill='x')
-
-
-def on_closing():
-    root.destroy()
-    exit(0)
+tk.Button(bop, text='Exit', command=lambda: close()).pack(side=tk.BOTTOM, fill='x')
 
 # UI hacks
-root.protocol("WM_DELETE_WINDOW", on_closing)
+root.protocol("WM_DELETE_WINDOW", close)
 root.lift()
 
 root.attributes('-topmost', True)
@@ -209,6 +209,8 @@ def main():
         # More hacks
         except UnicodeDecodeError:
             pass
+        except KeyboardInterrupt:
+            close()
 
 if __name__ == '__main__':
     main()
