@@ -7,6 +7,8 @@ import io
 import sys
 import traceback
 import math
+from math import sqrt
+from sympy import ln
 from chebyshev import chebyshev
 from cubicsplines import cubicSpline
 from leastSquares import leastSquares
@@ -14,7 +16,7 @@ from bezier import bezier
 from nonlinearleastsquares import nonLinearLeastSquares
 from differencemethods import differenceMethods
 from extrapolation import extrapolation
-from autodiff import autoDiff
+#from autodiff import autoDiff
 from trapezoidalsimpson import newtonTrapezoidal
 from trapezoidalsimpson import newtonSimpson
 from romberg1 import romberg
@@ -43,7 +45,7 @@ def callback(tex, input):
         fig.canvas.draw()
         sys.stdout = sys.__stdout__
         tex.insert(tk.END, out.getvalue())
-        tex.insert(tk.END, 'Runtime: ' + str(stop - start) + 'ms')
+        tex.insert(tk.END, 'Runtime: ' + str(stop - start) + ' seconds')
         tex.see(tk.END)  # Scroll if necessary
     except Exception as e:
         exc_type, exc_value, exc_traceback = sys.exc_info()
@@ -143,11 +145,11 @@ def setInput(tex, category):
                            'Example usage: romberg(math.sin, 0, 2, 10)\n'
                            'Advanced functions can be input as example: lambda x: (math.sin(x) - math.cos(x))')
     elif category == 'Adaptive':
-        inputText.set('Not yet implemented')
-        tex.insert(tk.END, ''
-                           ''
-                           ''
-                           '')
+        inputText.set('adaptive(lambda x: ln(x**2+1), 0, 1, 0.5E-09, 100)')
+        tex.insert(tk.END, 'Takes a function, a - b interval, tolerance, and number of steps and outputs the integrated'
+                           ' function value, the adaptive error, and the number of iterations necessary to find the '
+                           'integrated value. \n'
+                           'Example usage: adaptive(lambda x: ln(x**2+1), 0, 1, 0.5E-09, 100)')
     elif category == 'Gaussian':
         inputText.set('gaussian(lambda x: (x**2 * log(x)), 1, 3)')
         tex.insert(tk.END, 'Takes a function, a and b interval, and optionally, an extra Y value.'
