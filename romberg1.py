@@ -1,6 +1,7 @@
 import numpy
 import matplotlib.pyplot as plt
 import math
+import sys
 from sympy import *
 
 def romberg( f, a, b, n ):
@@ -10,17 +11,17 @@ def romberg( f, a, b, n ):
         r[0,0] = 0.5 * h * ( f( a ) + f( b ) )
 
         powerOf2 = 1
-        for i in xrange( 1, n + 1 ):
+        for i in range( 1, n + 1 ):
             h = 0.5 * h
             sum = 0.0
             powerOf2 = 2 * powerOf2
-            for k in xrange( 1, powerOf2, 2 ):
+            for k in range( 1, powerOf2, 2 ):
                 sum = sum + f( a + k * h )
 
             r[i,0] = 0.5 * r[i-1,0] + sum * h
 
             powerOf4 = 1
-            for j in xrange( 1, i + 1 ):
+            for j in range( 1, i + 1 ):
                 powerOf4 = 4 * powerOf4
                 r[i,j] = r[i,j-1] + ( r[i,j-1] - r[i-1,j-1] ) / ( powerOf4 - 1 )
 
@@ -28,9 +29,8 @@ def romberg( f, a, b, n ):
         print(r)
         plot(array)
         
-    except:
-        e = sys.exc_info()[0]
-        write_to_page("<p>Error: %s</p>" % e)
+    except Exception as e:
+        print(str(e))
         print('Sorry, you have not entered correct input')
         return -1
     #return r
@@ -48,9 +48,6 @@ def plot(array):
     plt.xlabel('X Value')
     plt.ylabel('Y Value')
     plt.grid(True)
-    plt.ion()
-    plt.pause(0.001)
-    plt.show()
 
 
 # if __name__ == '__main__':

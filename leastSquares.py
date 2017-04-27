@@ -63,10 +63,6 @@ def leastSquares(x, y, n):
             plt.xlabel('X Value')
             plt.ylabel('Y Value')
             # i like grid graphs
-            plt.grid(True)
-            plt.ion()
-            plt.pause(0.001)
-            plt.show()
             return x_coordinate, y_coordinate, y_fit
         # if data in the form Ax=b
         elif foundBracket == True:
@@ -100,9 +96,7 @@ def leastSquares(x, y, n):
 
 # def main():
 #     start = time.time()
-#     leastSquares([(1.49, 44.6), (3.03, 57.8), (0.57, 49.9), (5.74, 61.3), (3.51, 49.6),
-#     (3.73, 61.8), (2.98, 49.0), (-0.18, 44.7), (6.23, 59.2), (3.38, 53.9), (2.15, 46.5),
-#     (2.10, 54.7), (3.93, 50.3), (2.47, 51.2), (-0.41, 45.7)],0,2)
+#     leastSquares([(1.49, 44.6), (3.03, 57.8), (0.57, 49.9), (5.74, 61.3), (3.51, 49.6),(3.73, 61.8), (2.98, 49.0), (-0.18, 44.7), (6.23, 59.2), (3.38, 53.9), (2.15, 46.5),(2.10, 54.7), (3.93, 50.3), (2.47, 51.2), (-0.41, 45.7)],0,2)
 #     #leastSquares([(-1,1), (0,0), (1,0), (2,-2)], 0,2)
 #     #leastSquares([[1, 1], [1, -1], [1, 1]], [2, 1, 3], 3)
 #     end = time.time() - start

@@ -5,9 +5,11 @@ import matplotlib.pyplot as plt
 debug = False
 
 
-# Takes a string of points in the form: (-1,3), (0,5), (3,1), (4,1), (5,1) and optionally, the graph resolution
+# Takes a string of points in the string form: '(-1,3), (0,5), (3,1), (4,1), (5,1)'
+# and optionally, the graph resolution.
 # Prints the cubic spline functions to stdout and displays an interpolated line plot
 # Example usage: cubicSpline('(-1,3), (0,5), (3,1), (4,1), (5,1)')
+# or cubicSpline('(-1,3), (0,5), (3,1), (4,1), (5,1)', resolution=2) for a low resolution graph.
 
 def cubicSpline(points, resolution=100):
     if not points:
