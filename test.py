@@ -2,6 +2,7 @@ import matplotlib
 matplotlib.use("TkAgg")
 
 import tkinter as tk
+from tkinter import messagebox
 import timeit
 import io
 import sys
@@ -53,8 +54,6 @@ def callback(tex, input):
         tex.insert(tk.END, str(traceback.extract_tb(exc_traceback)))
         tex.insert(tk.END, "You have entered an invalid input. Select a function from the left for example input.\n")
 
-
-
 root = tk.Tk()
 root.wm_title('Numerical Analysis Project 2.2')
 right = tk.Frame()
@@ -84,7 +83,7 @@ def setInput(tex, category):
     elif category == 'Cubic Splines':
         inputText.set('cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\')')
         tex.insert(tk.END,  'Takes a string of points in the string form: \'(-1,3), (0,5), (3,1), (4,1), (5,1)\'' 
-                            ' and optionally, the graph resolution.'
+                            ' and optionally, the graph resolution. '
                             'Prints the cubic spline functions and displays an interpolated line plot below.\n'
                             'Example usage: cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\')\n'
                             'or cubicSpline(\'(-1,3), (0,5), (3,1), (4,1), (5,1)\', resolution=2) for a ' 
@@ -100,7 +99,7 @@ def setInput(tex, category):
                       '(2.10, 54.7), (3.93, 50.3), (2.47, 51.2), (-0.41, 45.7)],0,2)')
         tex.insert(tk.END, 'Takes either a series of coordinate points or a series of A and B matrices in bracket form.'
                            'If coordinates are provided, will output least squares fit function and graph.\n'
-                           'If an A and B matrix is provided, it will output the coefficient, residual, and rank.'
+                           'If an A and B matrix is provided, it will output the coefficient, residual, and rank.\n\n'
                            'Example usage: leastSquares([[1, 1], [1, -1], [1, 1]], [2, 1, 3], 3)')
     elif category == 'Nonlinear Least Squares':
         inputText.set('Not yet implemented')
@@ -127,21 +126,21 @@ def setInput(tex, category):
                            ''
                            '')
     elif category == 'Newton-Cotes: Trapezoidal':
-        inputText.set('Not yet implemented')
-        tex.insert(tk.END, ''
-                           ''
-                           ''
-                           '')
+        inputText.set('newtonTrapezoidal(lambda x: x**2, 0, 1, 10)')
+        tex.insert(tk.END, 'Takes a function, a and b intervals, and an n value in that order. '
+                           'Calculates the best guess for the Newton-Cotes Trapezoidal result value, and plots the '
+                           'graph below.\n\n'
+                           'Example usage: newtonTrapezoidal(lambda x: x**2, 0, 1, 10)')
     elif category == 'Newton-Cotes: Simpson':
-        inputText.set('Not yet implemented')
-        tex.insert(tk.END, ''
-                           ''
-                           ''
-                           '')
+        inputText.set('newtonSimpson(lambda x: x**2, 0, 1, 10)')
+        tex.insert(tk.END, 'Takes a function, a and b intervals, and an n value in that order. '
+                           'Calculates the best guess for the Newton-Cotes Simpson result value, and plots the '
+                           'graph below.\n\n'
+                           'Example usage: newtonSimpson(lambda x: x**2, 0, 1, 10)')
     elif category == 'Romberg':
         inputText.set('romberg(math.sin, 0, 2, 10)')
-        tex.insert(tk.END, 'Takes a function, a, b, and n value in that order. Plots the Romberg output and also'
-                           ' outputs the associated array.\n\n'
+        tex.insert(tk.END, 'Takes a function, a and b interval values, and n value in that order. '
+                           'Plots the Romberg output and also outputs the associated array.\n\n'
                            'Example usage: romberg(math.sin, 0, 2, 10)\n'
                            'Advanced functions can be input as example: lambda x: (math.sin(x) - math.cos(x))')
     elif category == 'Adaptive':
@@ -190,12 +189,24 @@ for k in range(0, 13):
 tk.Button(bop, text='Exit', command=root.destroy).pack(side=tk.BOTTOM, fill='x')
 
 
+def on_closing():
+    root.destroy()
+    exit(0)
+
+# UI hacks
+root.protocol("WM_DELETE_WINDOW", on_closing)
+root.lift()
+
+root.attributes('-topmost', True)
+root.after_idle(root.attributes, '-topmost', False)
+
 def main():
     inputText.set("Select a button from the left for example input.")
     while True:
         try:
             root.mainloop()
             break
+        # More hacks
         except UnicodeDecodeError:
             pass
 
