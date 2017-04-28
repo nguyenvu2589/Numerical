@@ -45,7 +45,7 @@ def main():
 	Error3Point = []
 
 	## User input 
-	func = exp(x)
+	func = sin(x)
 	xval = 0.0
 	h=[0.1,0.01,0.001]
 
